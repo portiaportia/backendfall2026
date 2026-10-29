@@ -28,17 +28,7 @@ let houses = [
             "wrap around porch",
             "attached garage"
         ],
-        "main_image": "farm.webp",
-        "floor_plans": [
-            {
-                "name": "Main Level",
-                "image": "farm-floor1.webp"
-            },
-            {
-                "name": "Basement",
-                "image": "farm-floor2.webp"
-            }
-        ]
+        "main_image": "farm.webp"
     },
     {
         "_id":2,
@@ -50,21 +40,7 @@ let houses = [
             "grand porch",
             "covered deck"
         ],
-        "main_image": "mountain-house.webp",
-        "floor_plans": [
-            {
-                "name": "Main Level",
-                "image": "mountain-house1.webp"
-            },
-            {
-                "name": "Optional Lower Level",
-                "image": "mountain-house2.webp"
-            },
-            {
-                "name": "Main Level Slab Option",
-                "image": "mountain-house3.jpg"
-            }
-        ]
+        "main_image": "mountain-house.webp"
     },
     {
         "_id":3,
@@ -77,16 +53,15 @@ let houses = [
             "outdoor kitchen",
             "pool house"
         ],
-        "main_image": "farm.webp",
-        "floor_plans": [
-            {
-                "name": "Main Level",
-                "image": "lake-house1.webp"
-            },
-            {
-                "name": "Lower Level",
-                "image": "lake-house2.webp"
-            }
-        ]
+        "main_image": "farm.webp"
     }
 ]
+
+app.get("/api/houses", (req,res)=>{
+    res.send(houses);
+});
+
+//listen for incoming requests
+app.listen(3001, ()=>{
+  console.log("Server is up and running");
+});
