@@ -62,14 +62,36 @@ app.get("/api/houses", (req,res)=>{
     res.send(houses);
 });
 
-app.post("/api/houses", upload.single("img"), ()=>{
-    console.log("in post");
+app.post("/api/houses", upload.single("img"), (req,res)=>{
+    const result = validateHouse(req.body);
+
+    if(result.error){
+        console.log("Error in validation");
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
+    const house = {
+        _id:houses.length+1,
+        name:req.body.name,
+        size:req.body.size,
+        bedrooms:req.body.bedrooms,
+        bathrooms:req.body.bathrooms
+    };
+
+    if(req.file){
+        house.main_image = req.file.filename;
+    }
+
+    houses.push(house);
+
+    res.status(200).send(house);
 });
 
 const validateHouse = (house) => {
     const schema = Joi.object({
         _id:Joi.allow(""),
-       name:Joi.min(3).required(),
+       name:Joi.string().min(3).required(),
        size:Joi.number().min(0),
        bedrooms:Joi.number().min(0),
        bathrooms:Joi.number().min(0),
