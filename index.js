@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
+const Joi = require("joi");
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
@@ -60,6 +61,23 @@ let houses = [
 app.get("/api/houses", (req,res)=>{
     res.send(houses);
 });
+
+app.post("/api/houses", upload.single("img"), ()=>{
+    console.log("in post");
+});
+
+const validateHouse = (house) => {
+    const schema = Joi.object({
+        _id:Joi.allow(""),
+       name:Joi.min(3).required(),
+       size:Joi.number().min(0),
+       bedrooms:Joi.number().min(0),
+       bathrooms:Joi.number().min(0),
+       features:Joi.allow("")
+    });
+
+    return schema.validate(house);
+};
 
 //listen for incoming requests
 app.listen(3001, ()=>{
